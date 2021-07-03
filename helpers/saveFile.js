@@ -1,6 +1,7 @@
 const fs = require('fs');
 
-const file = './db/data.json';
+const dir = './db';
+const file = `${dir}/data.json`;
 
 const saveDB = (data) => {
 	fs.writeFileSync(file, JSON.stringify(data));
@@ -8,7 +9,10 @@ const saveDB = (data) => {
 
 const readDB = () => {
 	if (!fs.existsSync(file)) {
-		return null;
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+		fs.writeFileSync(file, '[]');
 	}
 
 	const data = fs.readFileSync(file, { encoding: 'utf-8' });
